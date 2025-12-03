@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <!-- 定义变量：日志保存路径 -->
+    <Properties>
+        <Property name="basePath">./logs</Property>
+    </Properties>
+
+    <!-- 定义日志输出目标（Appenders） -->
+    <Appenders>
+
+        <!-- 控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- 文件输出，带自动滚动 -->
+        <RollingFile name="File"
+                     fileName="${basePath}/automation.log"
+                     filePattern="${basePath}/automation-%d{yyyy-MM-dd-HH-mm}.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <!-- 当文件大小超过 50KB 时，创建新的日志文件 -->
+            <SizeBasedTriggeringPolicy size="50000"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <!-- 定义日志记录规则 -->
+    <Loggers>
+
+        <!-- 根 Logger：默认输出级别为 INFO -->
+        <Root level="Info">
+            <AppenderRef ref="File"/>       <!-- 输出到文件 -->
+            <!-- <AppenderRef ref="Console"/> 可取消注释同时输出到控制台 -->
+        </Root>
+
+    </Loggers>
+
+</Configuration>
