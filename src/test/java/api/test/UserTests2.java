@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 public class UserTests2 {
 	
 	//this test class is for properties file
-	
+	//change for poll scm test
 	Faker faker;
 	User userPayload;
 	public Logger logger;
