@@ -4,6 +4,14 @@ import com.github.javafaker.Faker;
 import api.endpoints.UserEndPoints;
 import api.endpoints.UserEndPoints2;
 import api.payload.User;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+import io.qameta.allure.testng.Tag;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import org.testng.Assert;
@@ -11,10 +19,11 @@ import org.testng.Assert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+@Epic("Web app project") 
+@Feature("User account management basic test") 
 public class UserTests2 {
 	
-	//this test class is for properties file
+	//this test class is for properties file/for Jenkins project/CICD/Github repository
 	//change for poll scm test
 	Faker faker;
 	User userPayload;
@@ -41,7 +50,13 @@ public class UserTests2 {
 		
 	}
 	
-	@Test(priority=1)
+	
+	@Tag("smoke")
+	@Owner("Adam")
+    @Story("Create User Test")
+	@Description("User can be created")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Create User Test", priority=1)
 	public void testPostUser() 
 	{
 		logger.info("-----------------Creating User---------------");
@@ -55,8 +70,12 @@ public class UserTests2 {
 		logger.info("-----------------User is created---------------");
 	}
 	
-	
-	@Test(priority=2)
+	@Tag("regression")
+	@Owner("Will")
+    @Story("Get User by Name Test")
+	@Description("User profile can be got by name")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Get User by Name Test",priority=2)
 	public void testGetUserByName() 
 	{
 		logger.info("-----------------Reading User Info---------------");
@@ -70,7 +89,13 @@ public class UserTests2 {
 		logger.info("-----------------Reading User Info displayed---------------");
 	}
 	
-	@Test(priority=3)
+	
+	@Tag("regression")
+	@Owner("Johnny")
+    @Story("Update User by Name Test")
+	@Description("User details can be updated")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Update User Test", priority=3)
 	public void testUpdateUserByUsername() 
 	{
 		logger.info("-----------------Updating User Info---------------");
@@ -91,8 +116,12 @@ public class UserTests2 {
 
 	}
 	
-	
-	@Test(priority=4)
+	@Tag("smoke")
+	@Owner("Will")
+    @Story("Delete User Test")
+	@Description("User can be deleted")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Delete User Test", priority=4)
 	public void testDeleteUserByUsername() 
 	{
 		logger.info("-----------------Deleting User---------------");
