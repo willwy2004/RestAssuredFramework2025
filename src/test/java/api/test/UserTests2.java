@@ -4,6 +4,8 @@ import com.github.javafaker.Faker;
 import api.endpoints.UserEndPoints;
 import api.endpoints.UserEndPoints2;
 import api.payload.User;
+import api.utilities.AllureReportStepHelper;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -119,10 +121,10 @@ public class UserTests2 {
 	@Tag("smoke")
 	@Owner("Will")
     @Story("Delete User Test")
-	@Description("User can be deleted")
+	@Description("User can be deleted successfully")
     @Severity(SeverityLevel.CRITICAL)
-	@Test(description = "Delete User Test", priority=4)
-	public void testDeleteUserByUsername() 
+	@Test(description = "Delete User Test Success", priority=4)
+	public void testDeleteUserByUsernameSuccess() 
 	{
 		logger.info("-----------------Deleting User---------------");
 		
@@ -134,7 +136,32 @@ public class UserTests2 {
 	}
 
 	
-	
+	@Tag("smoke")
+	@Owner("Will")
+    @Story("Delete User Test")
+	@Description("User can be deleted - This test for fail,once failed, it should log the request body")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Delete User Test Fail", priority=5)
+	public void testDeleteUserByUsernameFail() 
+	{
+		
+		Allure.step("-----------------Deleting User---------------");
+		
+		Allure.step("Prepare data：set user name = No Name");
+		
+		this.userPayload.setUsername("No Name");
+		
+        Response res=UserEndPoints2.deleteUser(this.userPayload.getUsername());
+		
+        if(res.getStatusCode()!=200){
+        	AllureReportStepHelper.addResponseBody(res);  
+        }
+        
+		Assert.assertEquals(res.statusCode(),200);
+		
+		Allure.step("-----------------User delete failed---------------");
+	}
+
 	
 	
 	
