@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -16,8 +17,10 @@ import io.restassured.response.Response;
 public class AllureReportStepHelper {
 
 		@Step("Response body is added as attachment !")
-		public static String addResponseBody(Response res) {	
-			return res.getBody().asString();
+		public static void addResponseBody(Response res) {	
+			 if (res == null) return;
+			  String body = res.asPrettyString(); 
+			  Allure.addAttachment("Response body", "application/json", body, ".json");
 		}
 			
 
