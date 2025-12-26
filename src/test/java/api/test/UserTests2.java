@@ -22,10 +22,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Epic("Web app project") 
-@Feature("User account management basic test") 
+@Feature("User account management basic test 2") 
 public class UserTests2 {
-	
-	//this test class is for properties file/for Jenkins project/CICD/Github repository
 	//change for poll scm test
 	Faker faker;
 	User userPayload;

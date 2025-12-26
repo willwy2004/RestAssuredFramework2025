@@ -1,11 +1,22 @@
 package api.test;
 import com.github.javafaker.Faker;
-
 import api.endpoints.UserEndPoints;
+import api.endpoints.UserEndPoints2;
 import api.payload.User;
+import api.utilities.AllureReportStepHelper;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import org.testng.Assert;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+import io.qameta.allure.testng.Tag;
 import io.restassured.matcher.RestAssuredMatchers;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -14,8 +25,10 @@ import org.apache.logging.log4j.Logger;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("Web app project") 
+@Feature("User account management basic test") 
 public class UserTests {
-	
+	//this test class is for properties file/for Jenkins project/CICD/Github repository
 	Faker faker;
 	User userPayload;
 	public Logger logger;
@@ -41,7 +54,12 @@ public class UserTests {
 		
 	}
 	
-	@Test(priority=1)
+	@Tag("smoke")
+	@Owner("Adam")
+    @Story("Create User Test")
+	@Description("User can be created")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Create User Test", priority=1)
 	public void testPostUser() 
 	{
 		logger.info("-----------------Creating User---------------");
@@ -56,7 +74,12 @@ public class UserTests {
 	}
 	
 	
-	@Test(priority=2)
+	@Tag("regression")
+	@Owner("Will")
+    @Story("Get User by Name Test")
+	@Description("User profile can be got by name")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Get User by Name Test",priority=2)
 	public void testGetUserByName() 
 	{
 		logger.info("-----------------Reading User Info---------------");
@@ -70,7 +93,12 @@ public class UserTests {
 		logger.info("-----------------Reading User Info displayed---------------");
 	}
 	
-	@Test(priority=3)
+	@Tag("regression")
+	@Owner("Johnny")
+    @Story("Update User by Name Test")
+	@Description("User details can be updated")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Update User Test", priority=3)
 	public void testUpdateUserByUsername() 
 	{
 		logger.info("-----------------Updating User Info---------------");
@@ -92,7 +120,12 @@ public class UserTests {
 	}
 	
 	
-	@Test(priority=4)
+	@Tag("smoke")
+	@Owner("Will")
+    @Story("Delete User Test")
+	@Description("User can be deleted successfully")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Delete User Test Success", priority=4)
 	public void testDeleteUserByUsername() 
 	{
 		logger.info("-----------------Deleting User---------------");
@@ -104,7 +137,32 @@ public class UserTests {
 		logger.info("-----------------User deleted---------------");
 	}
 
-	
+	@Tag("smoke")
+	@Owner("Will")
+    @Story("Delete User Test")
+	@Description("User can be deleted - This test for fail,once failed, it should log the request body")
+    @Severity(SeverityLevel.CRITICAL)
+	@Test(description = "Delete User Test Fail", priority=5)
+	public void testDeleteUserByUsernameFail() 
+	{
+		
+		Allure.step("-----------------Deleting User---------------");
+		
+		Allure.step("Prepare data：set user name = No Name");
+		
+		this.userPayload.setUsername("No Name");
+		
+        Response res=UserEndPoints2.deleteUser(this.userPayload.getUsername());
+		
+        if(res.getStatusCode()!=200){
+        	AllureReportStepHelper.addResponseBody(res);  
+        }
+        
+		Assert.assertEquals(res.statusCode(),200);
+		
+		Allure.step("-----------------User delete failed---------------");
+	}
+
 	
 	
 	
